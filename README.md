@@ -1,16 +1,38 @@
 # SMSPVA Python SDK
 
-[![CI](https://github.com/SMSPVA/smspva-python/actions/workflows/ci.yml/badge.svg)](https://github.com/SMSPVA/smspva-python/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)
+[![CI](https://github.com/SMSPVA/smspva-python/actions/workflows/ci.yml/badge.svg)](https://github.com/SMSPVA/smspva-python/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SMSPVA/smspva-python/blob/main/LICENSE) ![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)
 
-Python 3.10+, synchronous `SMSPVA` and asynchronous `AsyncSMSPVA`, with the same 56 typed methods. Covers Activation V2 (20), Rental (22) and Private Email (14). Alternative API is excluded. This is an alpha release. PyPI publication is pending.
+Official Python client for [SMSPVA](https://smspva.com/), a service for receiving verification SMS, renting phone numbers and renting private email addresses. Integrate these APIs into Python applications with synchronous **SMSPVA** and asynchronous **AsyncSMSPVA** clients.
 
-Install from source:
+Requires Python 3.10 or later. Includes typed parameters and response dictionaries. This package is an alpha release.
+
+## Installation
 
 ```sh
-git clone https://github.com/SMSPVA/smspva-python.git
-cd smspva-python
-python -m pip install .
+python -m pip install --pre smspva-sdk
+# Or pin this release:
+python -m pip install smspva-sdk==0.1.0a2
 ```
+
+## API coverage
+
+The SDK provides 56 methods across three APIs:
+
+| API | Methods | Use it to |
+| --- | --- | --- |
+| Activation V2 | 20 | Request a number, check availability and receive verification SMS. |
+| Rental | 22 | Manage [phone number rentals](https://smspva.com/rent) and retrieve messages for existing orders. |
+| Private Email | 14 | Check providers and services, manage [private email rentals](https://smspva.com/rent-mail.html), and read incoming messages. |
+
+Country, service and provider lists come from the live API. Availability and prices can change. Alternative API is not included.
+
+## Quickstart
+
+[Sign in to your SMSPVA account](https://smspva.com/signin.html) and open **Profile and ApiKey** from the account menu. Set the key as the **SMSPVA_API_KEY** environment variable before running a protected request. Keep it on your server and out of source control.
+
+The examples below read your balance and reference data; they do not create an order.
+
+### Synchronous client
 
 ```python
 import os
@@ -21,6 +43,8 @@ with SMSPVA(os.environ["SMSPVA_API_KEY"]) as client:
     print(client.rental.get_countries())
     print(client.email.get_providers())
 ```
+
+### Asynchronous client
 
 ```python
 import asyncio
@@ -92,13 +116,13 @@ The default timeout is 30 seconds per HTTPX network operation. Override at clien
 
 The generated method index is in `METHODS.md`. Response TypedDicts and input aliases are available in `smspva.types`; the package includes `py.typed`.
 
-## License
-
-MIT. See [LICENSE](LICENSE).
-
 ## Development
 
+To build from source and run the local checks:
+
 ```sh
+git clone https://github.com/SMSPVA/smspva-python.git
+cd smspva-python
 python -m pip install -e . build mypy
 python -m unittest discover -s tests -v
 python -m mypy
@@ -107,10 +131,12 @@ python -m build
 
 Tests use synthetic fixtures and local transports; they do not buy numbers or call the production API.
 
-## Documentation
+## Documentation and support
 
-[API documentation](https://docs.smspva.com)
+Read the [SMSPVA API documentation](https://docs.smspva.com/) for endpoint parameters, response codes and the activation, rental and email workflows. The [method index](https://github.com/SMSPVA/smspva-python/blob/main/METHODS.md) maps every SDK method to its API operation.
 
-The new documentation is being prepared in English, Spanish and Chinese. Localized links will be added when it is deployed.
+For account, billing or service questions, visit the [SMSPVA help center](https://smspva.com/help.html). Report SDK bugs through this repository's issues, without API keys or private message content.
 
-The SDK covers Activation V2, Rental and Private Email. Alternative API is not supported.
+## License
+
+MIT. See [LICENSE](https://github.com/SMSPVA/smspva-python/blob/main/LICENSE).
