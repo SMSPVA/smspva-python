@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smspva-sdk"
-version = "0.1.0a1"
-description = "Typed sync and async clients for SMSPVA Activation V2, Rental and Private Email"
+version = "0.1.0a2"
+description = "Official Python SDK for SMSPVA SMS activation, phone number rental and private email APIs, with sync and async clients"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -28,7 +28,7 @@ files = ["src/smspva"]
 include-package-data = true
 
 [project.urls]
-Homepage = "https://github.com/SMSPVA/smspva-python"
+Homepage = "https://smspva.com/"
 Documentation = "https://docs.smspva.com"
 Repository = "https://github.com/SMSPVA/smspva-python"
 Issues = "https://github.com/SMSPVA/smspva-python/issues"

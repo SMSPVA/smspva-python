@@ -6,7 +6,7 @@ on:
       version:
         description: Exact Python package version to publish
         required: true
-        default: 0.1.0a1
+        default: 0.1.0a2
         type: string
 
 permissions:
