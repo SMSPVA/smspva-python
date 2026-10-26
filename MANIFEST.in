@@ -1,0 +1,3 @@
+include METHODS.md
+include LICENSE
+prune tests

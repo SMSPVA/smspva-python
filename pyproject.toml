@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smspva-sdk"
+version = "0.1.0a1"
+description = "Typed sync and async clients for SMSPVA Activation V2, Rental and Private Email"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = ["httpx>=0.28,<1", "typing_extensions>=4.12"]
+classifiers = ["Development Status :: 3 - Alpha", "Typing :: Typed", "Programming Language :: Python :: 3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+smspva = ["py.typed", "_contracts.json"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src/smspva"]
+
+[tool.setuptools]
+include-package-data = true
+
+[project.urls]
+Homepage = "https://github.com/SMSPVA/smspva-python"
+Documentation = "https://docs.smspva.com"
+Repository = "https://github.com/SMSPVA/smspva-python"
+Issues = "https://github.com/SMSPVA/smspva-python/issues"
