@@ -37,6 +37,14 @@ class Activation:
         """Country number counts. GET /activation/countnumbers/{country}"""
         return cast(T.ActivationGetCountryNumberCountsResponse, self._transport.request("activation.getCountryNumberCounts", {"country": country}, timeout=timeout, use_api_key=use_api_key))
 
+    def get_all_number_counts_compact(self, *, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetAllNumberCountsCompactResponse:
+        """Number counts & operator ratings. GET /activation/countnumberscompact"""
+        return cast(T.ActivationGetAllNumberCountsCompactResponse, self._transport.request("activation.getAllNumberCountsCompact", {}, timeout=timeout, use_api_key=use_api_key))
+
+    def get_country_number_counts_compact(self, *, country: T.ActivationGetCountryNumberCountsCompactCountryInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetCountryNumberCountsCompactResponse:
+        """Country counts & operator ratings. GET /activation/countnumberscompact/{country}"""
+        return cast(T.ActivationGetCountryNumberCountsCompactResponse, self._transport.request("activation.getCountryNumberCountsCompact", {"country": country}, timeout=timeout, use_api_key=use_api_key))
+
     def get_service_price(self, *, country: T.ActivationGetServicePriceCountryInput, service: T.ActivationGetServicePriceServiceInput, voice: T.ActivationGetServicePriceVoiceInput | None = None, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetServicePriceResponse:
         """Service price. GET /activation/serviceprice/{country}/{service}"""
         return cast(T.ActivationGetServicePriceResponse, self._transport.request("activation.getServicePrice", {"country": country, "service": service, "voice": voice}, timeout=timeout, use_api_key=use_api_key))
@@ -123,6 +131,14 @@ class AsyncActivation:
     async def get_country_number_counts(self, *, country: T.ActivationGetCountryNumberCountsCountryInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetCountryNumberCountsResponse:
         """Country number counts. GET /activation/countnumbers/{country}"""
         return cast(T.ActivationGetCountryNumberCountsResponse, await self._transport.request("activation.getCountryNumberCounts", {"country": country}, timeout=timeout, use_api_key=use_api_key))
+
+    async def get_all_number_counts_compact(self, *, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetAllNumberCountsCompactResponse:
+        """Number counts & operator ratings. GET /activation/countnumberscompact"""
+        return cast(T.ActivationGetAllNumberCountsCompactResponse, await self._transport.request("activation.getAllNumberCountsCompact", {}, timeout=timeout, use_api_key=use_api_key))
+
+    async def get_country_number_counts_compact(self, *, country: T.ActivationGetCountryNumberCountsCompactCountryInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetCountryNumberCountsCompactResponse:
+        """Country counts & operator ratings. GET /activation/countnumberscompact/{country}"""
+        return cast(T.ActivationGetCountryNumberCountsCompactResponse, await self._transport.request("activation.getCountryNumberCountsCompact", {"country": country}, timeout=timeout, use_api_key=use_api_key))
 
     async def get_service_price(self, *, country: T.ActivationGetServicePriceCountryInput, service: T.ActivationGetServicePriceServiceInput, voice: T.ActivationGetServicePriceVoiceInput | None = None, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetServicePriceResponse:
         """Service price. GET /activation/serviceprice/{country}/{service}"""

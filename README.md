@@ -16,7 +16,7 @@ python -m pip install smspva-sdk==0.1.0a2
 
 ## API coverage
 
-The SDK provides 56 methods across three APIs:
+The SDK provides 58 methods across three APIs:
 
 | API | Methods | Use it to |
 | --- | --- | --- |
@@ -140,3 +140,22 @@ For account, billing or service questions, visit the [SMSPVA help center](https:
 ## License
 
 MIT. See [LICENSE](https://github.com/SMSPVA/smspva-python/blob/main/LICENSE).
+
+## Compact number counts and operator ratings
+
+Using an already configured client:
+
+```python
+all_counts = client.activation.get_all_number_counts_compact()
+ua_counts = client.activation.get_country_number_counts_compact(country="ua")
+
+# With an AsyncSMSPVA client:
+async def read_counts(async_client):
+    all_counts = await async_client.activation.get_all_number_counts_compact()
+    ua_counts = await async_client.activation.get_country_number_counts_compact(country="ua")
+    return all_counts, ua_counts
+```
+
+Both requests use GET and the account API key in the `apikey` header. Country codes are case-insensitive; an unknown country returns `data: []`. No extra query parameters are required. Results are cached by the API for 60 seconds, independently for all countries and for each country.
+
+The SDK preserves `Operator`, `Country`, `Services`, `Rating` and `ServiceRatings` exactly as returned, including negative counts and missing or invalid ratings. It does not insert computed rating fields. For non-`Donor*` operators, the effective rating is 1. For `Donor*` operators, use a service rating if it is an integer from 1 to 10, then a valid overall rating; otherwise the rating is undefined. Lower is better.

@@ -57,8 +57,26 @@ def assert_wire(case, request):
 
 
 class SyncTests(unittest.TestCase):
-    def test_all_56_methods_preserve_wire_contract_and_values(self):
-        self.assertEqual(len(CASES), 56)
+    def test_compact_counts_sync_and_async_preserve_case_and_empty_results(self):
+        h = Harness()
+        h.body = {"statusCode": 200, "data": []}
+        with h.client() as client:
+            self.assertEqual(client.activation.get_all_number_counts_compact(), h.body)
+            for country in ["ua", "UA", "UNKNOWN"]:
+                self.assertEqual(client.activation.get_country_number_counts_compact(country=country), h.body)
+                self.assertEqual(h.received[-1].url.path, "/activation/countnumberscompact/" + country)
+                self.assertFalse(h.received[-1].url.query)
+        async def check_async():
+            async with h.client(asynchronous=True) as client:
+                self.assertEqual(await client.activation.get_all_number_counts_compact(), h.body)
+                self.assertEqual(await client.activation.get_country_number_counts_compact(country="ua"), h.body)
+                self.assertEqual(h.received[-1].url.path, "/activation/countnumberscompact/ua")
+                self.assertEqual(h.received[-1].headers["apikey"], SECRET)
+        asyncio.run(check_async())
+        self.assertEqual(len(h.received), 6)
+
+    def test_all_58_methods_preserve_wire_contract_and_values(self):
+        self.assertEqual(len(CASES), 58)
         h = Harness()
         with h.client() as client:
             for case in CASES:
@@ -182,7 +200,7 @@ class SyncTests(unittest.TestCase):
 
 
 class AsyncTests(unittest.IsolatedAsyncioTestCase):
-    async def test_all_56_methods_async(self):
+    async def test_all_58_methods_async(self):
         h = Harness()
         async with h.client(asynchronous=True) as client:
             for case in CASES:
