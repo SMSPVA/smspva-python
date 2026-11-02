@@ -11,6 +11,10 @@ from smspva.types import (
 
 
 def consume_sync(client: SMSPVA) -> None:
+    compact = client.activation.get_all_number_counts_compact()
+    assert_type(compact["data"][0]["Services"]["opt20"], int)
+    country = client.activation.get_country_number_counts_compact(country="ua")
+    assert_type(country["data"][0]["Country"], str)
     order = client.email.create_order(scode="service-code", dtype="day", dcount=1)
     if is_no_stock(order):
         assert_type(order, EmailCreateOrderResponseVariant1)
@@ -27,6 +31,10 @@ def consume_sync(client: SMSPVA) -> None:
 
 
 async def consume_async(client: AsyncSMSPVA) -> None:
+    compact = await client.activation.get_all_number_counts_compact()
+    assert_type(compact["data"][0]["Services"]["opt20"], int)
+    country = await client.activation.get_country_number_counts_compact(country="ua")
+    assert_type(country["data"][0]["Country"], str)
     order = await client.email.create_order(scode="service-code", dtype="day", dcount=1)
     if not is_no_stock(order):
         assert_type(order, EmailCreateOrderResponseVariant0)

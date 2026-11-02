@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smspva-sdk"
-version = "0.1.0a2"
+version = "0.1.0a3"
 description = "Official Python SDK for SMSPVA SMS activation, phone number rental and private email APIs, with sync and async clients"
 readme = "README.md"
 license = "MIT"

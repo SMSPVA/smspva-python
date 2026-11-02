@@ -46,6 +46,17 @@ ActivationGetCountryNumberCountsResponse = TypedDict("ActivationGetCountryNumber
 
 ActivationGetCountryNumberCountsCountryInput: TypeAlias = str
 
+ActivationGetAllNumberCountsCompactResponseDataItem = TypedDict("ActivationGetAllNumberCountsCompactResponseDataItem", {"Operator": Required[str], "Country": Required[str], "Services": Required[dict[str, int]], "Rating": NotRequired[Any], "ServiceRatings": NotRequired[dict[str, Any]]}, total=False)
+
+ActivationGetAllNumberCountsCompactResponse = TypedDict("ActivationGetAllNumberCountsCompactResponse", {"statusCode": Required[int], "data": Required[list[ActivationGetAllNumberCountsCompactResponseDataItem]]}, total=False)
+
+
+ActivationGetCountryNumberCountsCompactResponseDataItem = TypedDict("ActivationGetCountryNumberCountsCompactResponseDataItem", {"Operator": Required[str], "Country": Required[str], "Services": Required[dict[str, int]], "Rating": NotRequired[Any], "ServiceRatings": NotRequired[dict[str, Any]]}, total=False)
+
+ActivationGetCountryNumberCountsCompactResponse = TypedDict("ActivationGetCountryNumberCountsCompactResponse", {"statusCode": Required[int], "data": Required[list[ActivationGetCountryNumberCountsCompactResponseDataItem]]}, total=False)
+
+ActivationGetCountryNumberCountsCompactCountryInput: TypeAlias = str
+
 ActivationGetServicePriceResponseData = TypedDict("ActivationGetServicePriceResponseData", {"service": NotRequired[str], "serviceDescription": NotRequired[str], "country": NotRequired[str], "price": NotRequired[str], "priceByOperators": NotRequired[dict[str, str]]}, total=False)
 
 ActivationGetServicePriceResponse = TypedDict("ActivationGetServicePriceResponse", {"statusCode": NotRequired[int], "data": NotRequired[ActivationGetServicePriceResponseData]}, total=False)
