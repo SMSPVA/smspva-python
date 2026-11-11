@@ -75,8 +75,8 @@ class SyncTests(unittest.TestCase):
         asyncio.run(check_async())
         self.assertEqual(len(h.received), 6)
 
-    def test_all_58_methods_preserve_wire_contract_and_values(self):
-        self.assertEqual(len(CASES), 58)
+    def test_all_61_methods_preserve_wire_contract_and_values(self):
+        self.assertEqual(len(CASES), 61)
         h = Harness()
         with h.client() as client:
             for case in CASES:
@@ -116,6 +116,14 @@ class SyncTests(unittest.TestCase):
         with h.client() as client:
             h.status, h.body = 202, {"statusCode": 202, "error": {"type": "SMS_NOT_YET_RECEIVED"}}
             self.assertTrue(is_pending(client.activation.receive_sms(orderid=123)))
+            h.body = {"statusCode": 202, "error": {"type": "NUMBER_NOT_READY", "description": "Wait"}, "retryAfter": 17}
+            self.assertEqual(client.activation.repeat_number(number="01234", service="opt164"), h.body)
+            with self.assertRaises(ApiError):
+                client.activation.get_phone_status(orderid=123)
+            h.body = {"statusCode": 202, "error": {"type": "PHONE_NOT_READY", "description": "Wait"}}
+            self.assertEqual(client.activation.get_phone_status(orderid=123), h.body)
+            with self.assertRaises(ValidationError):
+                client.activation.repeat_number(number="01234\n", service="opt164")
             h.status, h.body = 200, {"status": 2}
             self.assertTrue(is_no_stock(client.email.create_order(scode="twitter", dtype="week", dcount=1)))
             with self.assertRaises(ApiError):
@@ -200,7 +208,7 @@ class SyncTests(unittest.TestCase):
 
 
 class AsyncTests(unittest.IsolatedAsyncioTestCase):
-    async def test_all_58_methods_async(self):
+    async def test_all_61_methods_async(self):
         h = Harness()
         async with h.client(asynchronous=True) as client:
             for case in CASES:
@@ -217,6 +225,11 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
         async with h.client(asynchronous=True) as client:
             h.status, h.body = 202, {"statusCode": 202, "error": {"type": "SMS_NOT_YET_RECEIVED"}}
             self.assertTrue(is_pending(await client.activation.receive_sms(orderid=123)))
+            h.body = {"statusCode": 202, "error": {"type": "NUMBER_NOT_READY", "description": "Wait"}, "retryAfter": 17}
+            self.assertEqual(await client.activation.repeat_number(number="01234", service="opt164"), h.body)
+            h.body = {"statusCode": 202, "error": {"type": "PHONE_NOT_READY", "description": "Wait"}}
+            self.assertEqual(await client.activation.get_phone_status(orderid=123), h.body)
+            h.body = {"statusCode": 202, "error": {"type": "SMS_NOT_YET_RECEIVED"}}
             with self.assertRaises(PollingTimeoutError):
                 await client.activation.wait_for_sms(orderid=123, expires_at=time.time() + .05)
             h.status, h.body = 200, {"status": 2}
