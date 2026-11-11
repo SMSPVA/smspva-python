@@ -69,6 +69,18 @@ class Activation:
         """Get number by operator. GET /activation/number/{country}/{service}/{operator}"""
         return cast(T.ActivationGetNumberByOperatorResponse, self._transport.request("activation.getNumberByOperator", {"country": country, "service": service, "operator": operator, "voice": voice}, timeout=timeout, use_api_key=use_api_key))
 
+    def repeat_number(self, *, number: T.ActivationRepeatNumberNumberInput, service: T.ActivationRepeatNumberServiceInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationRepeatNumberResponseResult:
+        """Repeat a number. POST /activation/repeatnumber/{number}/{service}"""
+        return cast(T.ActivationRepeatNumberResponseResult, self._transport.request("activation.repeatNumber", {"number": number, "service": service}, timeout=timeout, use_api_key=use_api_key))
+
+    def get_phone_status(self, *, orderid: T.ActivationGetPhoneStatusOrderidInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetPhoneStatusResponseResult:
+        """Check phone readiness. GET /activation/statusphone/{orderid}"""
+        return cast(T.ActivationGetPhoneStatusResponseResult, self._transport.request("activation.getPhoneStatus", {"orderid": orderid}, timeout=timeout, use_api_key=use_api_key))
+
+    def start_sms(self, *, orderid: T.ActivationStartSmsOrderidInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationStartSmsResponse:
+        """Start SMS reception. PUT /activation/startsms/{orderid}"""
+        return cast(T.ActivationStartSmsResponse, self._transport.request("activation.startSms", {"orderid": orderid}, timeout=timeout, use_api_key=use_api_key))
+
     def receive_sms(self, *, partnerkey: T.ActivationReceiveSmsPartnerkeyInput | None = None, orderid: T.ActivationReceiveSmsOrderidInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationReceiveSmsResponseResult:
         """Receive SMS. GET /activation/sms/{orderid}"""
         return cast(T.ActivationReceiveSmsResponseResult, self._transport.request("activation.receiveSms", {"partnerkey": partnerkey, "orderid": orderid}, timeout=timeout, use_api_key=use_api_key))
@@ -163,6 +175,18 @@ class AsyncActivation:
     async def get_number_by_operator(self, *, country: T.ActivationGetNumberByOperatorCountryInput, service: T.ActivationGetNumberByOperatorServiceInput, operator: T.ActivationGetNumberByOperatorOperatorInput, voice: T.ActivationGetNumberByOperatorVoiceInput | None = None, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetNumberByOperatorResponse:
         """Get number by operator. GET /activation/number/{country}/{service}/{operator}"""
         return cast(T.ActivationGetNumberByOperatorResponse, await self._transport.request("activation.getNumberByOperator", {"country": country, "service": service, "operator": operator, "voice": voice}, timeout=timeout, use_api_key=use_api_key))
+
+    async def repeat_number(self, *, number: T.ActivationRepeatNumberNumberInput, service: T.ActivationRepeatNumberServiceInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationRepeatNumberResponseResult:
+        """Repeat a number. POST /activation/repeatnumber/{number}/{service}"""
+        return cast(T.ActivationRepeatNumberResponseResult, await self._transport.request("activation.repeatNumber", {"number": number, "service": service}, timeout=timeout, use_api_key=use_api_key))
+
+    async def get_phone_status(self, *, orderid: T.ActivationGetPhoneStatusOrderidInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationGetPhoneStatusResponseResult:
+        """Check phone readiness. GET /activation/statusphone/{orderid}"""
+        return cast(T.ActivationGetPhoneStatusResponseResult, await self._transport.request("activation.getPhoneStatus", {"orderid": orderid}, timeout=timeout, use_api_key=use_api_key))
+
+    async def start_sms(self, *, orderid: T.ActivationStartSmsOrderidInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationStartSmsResponse:
+        """Start SMS reception. PUT /activation/startsms/{orderid}"""
+        return cast(T.ActivationStartSmsResponse, await self._transport.request("activation.startSms", {"orderid": orderid}, timeout=timeout, use_api_key=use_api_key))
 
     async def receive_sms(self, *, partnerkey: T.ActivationReceiveSmsPartnerkeyInput | None = None, orderid: T.ActivationReceiveSmsOrderidInput, timeout: float | None = None, use_api_key: bool = True) -> T.ActivationReceiveSmsResponseResult:
         """Receive SMS. GET /activation/sms/{orderid}"""

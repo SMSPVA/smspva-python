@@ -62,7 +62,7 @@ class Configuration:
                 raise ValidationError(f"Invalid type for parameter: {name}")
             if ("enum" in schema and value not in schema["enum"]
                 or isinstance(value, (int, float)) and ("minimum" in schema and value < schema["minimum"] or "maximum" in schema and value > schema["maximum"])
-                or isinstance(value, str) and ("minLength" in schema and len(value) < schema["minLength"] or "maxLength" in schema and len(value) > schema["maxLength"] or "pattern" in schema and not re.search(schema["pattern"], value))):
+                or isinstance(value, str) and ("minLength" in schema and len(value) < schema["minLength"] or "maxLength" in schema and len(value) > schema["maxLength"] or "pattern" in schema and not re.fullmatch(schema["pattern"], value))):
                 raise ValidationError(f"Invalid value for parameter: {name}")
             text = str(value)
             if p["in"] == "path":
@@ -105,7 +105,7 @@ def parse_response(op: dict[str, Any], key: str, response: httpx.Response) -> di
         raise ApiError(family, key, http_status, code, value)
     if isinstance(status, bool) or not isinstance(status, int):
         raise ProtocolError(family, key, http_status)
-    if op["pending"] and http_status == 202 and status == 202 and error.get("type") == "SMS_NOT_YET_RECEIVED":
+    if op["pending"] and http_status == 202 and status == 202 and error.get("type") == op.get("pendingType", "SMS_NOT_YET_RECEIVED"):
         return value
     if op["noStock"] and http_status == 200 and status == 2:
         return value

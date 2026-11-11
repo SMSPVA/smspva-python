@@ -106,6 +106,37 @@ ActivationGetNumberByOperatorServiceInput: TypeAlias = str
 ActivationGetNumberByOperatorOperatorInput: TypeAlias = str
 ActivationGetNumberByOperatorVoiceInput: TypeAlias = Literal[0, 1, 2]
 
+ActivationRepeatNumberResponseData = TypedDict("ActivationRepeatNumberResponseData", {"orderId": Required[int], "phoneNumber": Required[str], "countryCode": Required[str], "orderExpireIn": Required[int | None], "price": Required[float]}, total=False)
+
+ActivationRepeatNumberResponse = TypedDict("ActivationRepeatNumberResponse", {"statusCode": Required[Literal[200]], "data": Required[ActivationRepeatNumberResponseData]}, total=False)
+
+ActivationRepeatNumberPendingError = TypedDict("ActivationRepeatNumberPendingError", {"type": Required[Literal["NUMBER_NOT_READY"]], "description": Required[str]}, total=False)
+
+ActivationRepeatNumberPending = TypedDict("ActivationRepeatNumberPending", {"statusCode": Required[Literal[202]], "error": Required[ActivationRepeatNumberPendingError], "retryAfter": Required[int]}, total=False)
+
+ActivationRepeatNumberResponseResult: TypeAlias = ActivationRepeatNumberResponse | ActivationRepeatNumberPending
+
+ActivationRepeatNumberNumberInput: TypeAlias = str
+ActivationRepeatNumberServiceInput: TypeAlias = str
+
+ActivationGetPhoneStatusResponseData = TypedDict("ActivationGetPhoneStatusResponseData", {"orderId": Required[int], "ready": Required[bool]}, total=False)
+
+ActivationGetPhoneStatusResponse = TypedDict("ActivationGetPhoneStatusResponse", {"statusCode": Required[Literal[200]], "data": Required[ActivationGetPhoneStatusResponseData]}, total=False)
+
+ActivationGetPhoneStatusPendingError = TypedDict("ActivationGetPhoneStatusPendingError", {"type": Required[Literal["PHONE_NOT_READY"]], "description": Required[str]}, total=False)
+
+ActivationGetPhoneStatusPending = TypedDict("ActivationGetPhoneStatusPending", {"statusCode": Required[Literal[202]], "error": Required[ActivationGetPhoneStatusPendingError]}, total=False)
+
+ActivationGetPhoneStatusResponseResult: TypeAlias = ActivationGetPhoneStatusResponse | ActivationGetPhoneStatusPending
+
+ActivationGetPhoneStatusOrderidInput: TypeAlias = int
+
+ActivationStartSmsResponseData = TypedDict("ActivationStartSmsResponseData", {"orderId": Required[int], "orderExpireIn": Required[int | None]}, total=False)
+
+ActivationStartSmsResponse = TypedDict("ActivationStartSmsResponse", {"statusCode": Required[Literal[200]], "data": Required[ActivationStartSmsResponseData]}, total=False)
+
+ActivationStartSmsOrderidInput: TypeAlias = int
+
 ActivationReceiveSmsResponseDataSms = TypedDict("ActivationReceiveSmsResponseDataSms", {"code": NotRequired[str], "fullText": NotRequired[str]}, total=False)
 
 ActivationReceiveSmsResponseData = TypedDict("ActivationReceiveSmsResponseData", {"sms": NotRequired[ActivationReceiveSmsResponseDataSms], "orderId": NotRequired[int], "orderExpireIn": NotRequired[int]}, total=False)
